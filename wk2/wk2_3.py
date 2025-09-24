@@ -1,35 +1,51 @@
+# Import necessary libraries
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 
-# Set up the driver
+# ---------------------------
+# Step 1: Set up the WebDriver
+# ---------------------------
 driver = webdriver.Chrome()
 
-# Go to Wikipedia Random page
+# ---------------------------
+# Step 2: Go to a random Wikipedia page
+# ---------------------------
 driver.get("https://en.wikipedia.org/wiki/Special:Random")
-time.sleep(3)
+time.sleep(3)  # Wait for page to load
 
-# Get page title
+# ---------------------------
+# Step 3: Extract the page title
+# ---------------------------
 title = driver.find_element(By.ID, "firstHeading").text
 
-# Get first paragraph from the content area
+# ---------------------------
+# Step 4: Extract the first paragraphs
+# ---------------------------
 try:
     paragraphs = driver.find_elements(By.CSS_SELECTOR, "div.mw-parser-output > p")
 except:
-    paragraphs = "No paragraph found."
+    paragraphs = ["No paragraph found."]  # Ensure it's a list for iteration
 
-# Get categories (usually at the bottom of the page)
+# ---------------------------
+# Step 5: Extract categories
+# ---------------------------
 try:
     categories = driver.find_elements(By.CSS_SELECTOR, "#mw-normal-catlinks ul li a")
     category_list = [cat.text for cat in categories]
 except:
     category_list = []
 
-# Print results
+# ---------------------------
+# Step 6: Print results
+# ---------------------------
 print("Title:", title)
-print("Paragraphs")
-for paragraph in paragraphs[:3]:
+print("\nParagraphs:")
+for paragraph in paragraphs[:3]:  # Print first 3 paragraphs
     print(paragraph.text)
+
 print("\nCategories:", category_list)
 
-driver.quit()
+# ---------------------------
+# Step 7: Close the WebDriver
+# -------------
